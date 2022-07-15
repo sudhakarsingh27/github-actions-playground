@@ -39,4 +39,6 @@ jobs:
       - name: Run a multi-line script
         run: |
           pwd
-          ls
+          sbatch -W -N 1 multinode.sub
+          echo $?
+
