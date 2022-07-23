@@ -41,6 +41,7 @@ jobs:
           ls $JOBSCRIPTSDIR/../..
           ls $JOBSCRIPTSDIR/../../..
           sbatch -N 1 -W multinode.sub | tee output.log
+          echo $?
           # sleep 10s
           # export SLURM_JOBID=$(grep 'Submitted batch job' "output.log" | awk '{ print $4 }')
           # export SLURM_OUTPUT=$(scontrol show job "${SLURM_JOBID}" | grep 'StdOut' | awk -F '=' '{ print $2 }')
