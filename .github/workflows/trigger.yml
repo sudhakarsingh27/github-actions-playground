@@ -45,10 +45,10 @@ jobs:
           export SLURM_OUTPUT=$(scontrol show job "${SLURM_JOBID}" | grep 'StdOut' | awk -F '=' '{ print $2 }')
           $JOBSCRIPTSDIR/job_wait "${SLURM_JOBID}" & PID=$!
           touch "${SLURM_OUTPUT}"
-          echo -e " ---------------------------------------------------\n"
-               "----------WAITING FOR SLURM JOB TO BEGIN-----------\n"
-               "---------------------------------------------------\n"
-               "$(scontrol show job=${SLURM_JOBID})\n"
+          echo -e " ---------------------------------------------------\n" \
+               "----------WAITING FOR SLURM JOB TO BEGIN-----------\n" \
+               "---------------------------------------------------\n" \
+               "$(scontrol show job=${SLURM_JOBID})\n" \
                "---------------------------------------------------\n"
           tail --pid="${PID}" -f "${SLURM_OUTPUT}"
           export SLURM_NODELIST=$($JOBSCRIPTSDIR/job_nodes "${SLURM_JOBID}"); echo "SLURM_NODELIST='${SLURM_NODELIST}'"
