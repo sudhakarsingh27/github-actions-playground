@@ -36,11 +36,7 @@ jobs:
           set -x
           export JOBSCRIPTSDIR=${GITHUB_WORKSPACE}/.github/workflows/slurm_job_scripts
           source $JOBSCRIPTSDIR/build_common_cuda.sh
-          ls $JOBSCRIPTSDIR
-          ls $JOBSCRIPTSDIR/..
-          ls $JOBSCRIPTSDIR/../..
-          ls $JOBSCRIPTSDIR/../../..
-          sbatch -N 1 -W multinode.sub | tee output.log
+          sbatch -N 1 -W multinode.sub
           echo $?
           # sleep 10s
           # export SLURM_JOBID=$(grep 'Submitted batch job' "output.log" | awk '{ print $4 }')
