@@ -33,7 +33,7 @@ jobs:
       - name: Run `sbatch` command
         run: |
           pwd
-          export JOBSCRIPTSDIR=${GITHUB_WORKSPACE}/.github/slurm_job_scripts
+          export JOBSCRIPTSDIR=${GITHUB_WORKSPACE}/.github/workflows/slurm_job_scripts
           sbatch -N 1 multinode.sub | tee output.log
           sleep 10s
           export SLURM_JOBID=$(grep 'Submitted batch job' "output.log" | awk '{ print $4 }')
