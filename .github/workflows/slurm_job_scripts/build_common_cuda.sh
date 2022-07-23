@@ -14,17 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -euo pipefail
-shopt -s lastpipe
+job_exit_code() {
+    shopt -s lastpipe
 
-job_nodes() {
     if [ "$#" -ne 1 ]; then
         exit 1
     fi
 
     JOBID="$1"
 
-    sacct -j "${JOBID}"  -X -n --format=nodelist%400 | sed 's/ //g'
+    sacct -j "${JOBID}" -n --format=exitcode | sort -r -u | head -1 | cut -f 1 -d":" | sed 's/ //g'
+
+    exit ${PIPESTATUS[0]}
 }
 
 job_state(){
@@ -81,7 +82,7 @@ job_wait(){
     JOBID="$1"
 
     while true; do
-        export STATE=$(./jobstate.sh "${JOBID}")
+        export STATE=$(job_state "${JOBID}")
         case "${STATE}" in
             PENDING|RUNNING|REQUEUED)
                 sleep 15s
