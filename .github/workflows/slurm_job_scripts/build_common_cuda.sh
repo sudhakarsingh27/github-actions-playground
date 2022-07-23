@@ -79,6 +79,7 @@ job_wait(){
         exit 1
     fi
 
+    echo "checking for jobid $1"
     JOBID="$1"
 
     while true; do
