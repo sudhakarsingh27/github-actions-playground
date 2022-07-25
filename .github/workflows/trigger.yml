@@ -37,23 +37,22 @@ jobs:
           export JOBSCRIPTSDIR=${GITHUB_WORKSPACE}/.github/workflows/slurm_job_scripts
           source $JOBSCRIPTSDIR/build_common_cuda.sh
           sbatch -W -N 1 multinode.sub
-          echo $?
-          # sleep 10s
-          # export SLURM_JOBID=$(grep 'Submitted batch job' "output.log" | awk '{ print $4 }')
-          # export SLURM_OUTPUT=$(scontrol show job "${SLURM_JOBID}" | grep 'StdOut' | awk -F '=' '{ print $2 }')
-          # job_wait "${SLURM_JOBID}" & PID=$!
-          # touch "${SLURM_OUTPUT}"
-          # echo -e " ---------------------------------------------------\n" \
-          #      "----------WAITING FOR SLURM JOB TO BEGIN-----------\n" \
-          #      "---------------------------------------------------\n" \
-          #      "$(scontrol show job=${SLURM_JOBID})\n" \
-          #      "---------------------------------------------------\n"
-          # tail --pid="${PID}" -f "${SLURM_OUTPUT}"
-          # export SLURM_NODELIST=$(job_nodes "${SLURM_JOBID}"); echo "SLURM_NODELIST='${SLURM_NODELIST}'"
-          # export SLURM_STATE=$(job_state "${SLURM_JOBID}"); echo "SLURM_JOBID=${SLURM_JOBID} SLURM_STATE='${SLURM_STATE}'"
-          # export SLURM_WALLTIME=$(job_time "${SLURM_JOBID}"); echo "SLURM_WALLTIME=${SLURM_WALLTIME} secs"
-          # export SLURM_EXITCODE=$(job_exit_code "${SLURM_JOBID}" || echo $?); echo "SLURM_EXITCODE='${SLURM_EXITCODE}'"
-          # if [ "${SLURM_EXITCODE}" != "0" ];      then exit ${SLURM_EXITCODE:-999}; fi
-          # if [ "${SLURM_STATE}" != "COMPLETED" ]; then exit 1; fi
+          sleep 10s
+          export SLURM_JOBID=$(grep 'Submitted batch job' "output.log" | awk '{ print $4 }')
+          export SLURM_OUTPUT=$(scontrol show job "${SLURM_JOBID}" | grep 'StdOut' | awk -F '=' '{ print $2 }')
+          job_wait "${SLURM_JOBID}" & PID=$!
+          touch "${SLURM_OUTPUT}"
+          echo -e " ---------------------------------------------------\n" \
+               "----------WAITING FOR SLURM JOB TO BEGIN-----------\n" \
+               "---------------------------------------------------\n" \
+               "$(scontrol show job=${SLURM_JOBID})\n" \
+               "---------------------------------------------------\n"
+          tail --pid="${PID}" -f "${SLURM_OUTPUT}"
+          export SLURM_NODELIST=$(job_nodes "${SLURM_JOBID}"); echo "SLURM_NODELIST='${SLURM_NODELIST}'"
+          export SLURM_STATE=$(job_state "${SLURM_JOBID}"); echo "SLURM_JOBID=${SLURM_JOBID} SLURM_STATE='${SLURM_STATE}'"
+          export SLURM_WALLTIME=$(job_time "${SLURM_JOBID}"); echo "SLURM_WALLTIME=${SLURM_WALLTIME} secs"
+          export SLURM_EXITCODE=$(job_exit_code "${SLURM_JOBID}" || echo $?); echo "SLURM_EXITCODE='${SLURM_EXITCODE}'"
+          if [ "${SLURM_EXITCODE}" != "0" ];      then exit ${SLURM_EXITCODE:-999}; fi
+          if [ "${SLURM_STATE}" != "COMPLETED" ]; then exit 1; fi
           set +x
 
