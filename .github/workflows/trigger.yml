@@ -41,7 +41,7 @@ jobs:
           export SLURM_OUTPUT=$(scontrol show job "${SLURM_JOBID}" | grep 'StdOut' | awk -F '=' '{ print $2 }')
           export SLURM_OUTPUT_NODE0=${GITHUB_WORKSPACE}/outputs/output-${SLURM_JOBID}-0.txt
           job_wait "${SLURM_JOBID}" & PID=$!
-          touch "${SLURM_OUTPUT}"
+          touch "${SLURM_OUTPUT_NODE0}"
           echo -e " ---------------------------------------------------\n" \
                "----------WAITING FOR SLURM JOB TO BEGIN-----------\n" \
                "---------------------------------------------------\n"
